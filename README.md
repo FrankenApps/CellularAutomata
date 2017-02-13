@@ -4,4 +4,8 @@ This is a little web project with Javascript and D3.js. When ready it will be po
 
 ## Todo
 
-Implement a ProgressBar, since updating can take pretty long..
+1. Implement a ProgressBar, since updating can take pretty long..
+2. Improve mobile UI
+  1. Make top bar vertical scrollable
+  2. Remove Bootstrap Slider in mobile view
+  3. Increase Button and Switch size
