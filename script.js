@@ -10,13 +10,26 @@ $( document ).ready(function() {
 	min: 10,
 	max: 1000001,
 	scale: 'logarithmic',
-	step: 10
-});
+	step: 2
+  });
+
+  var switchery = new Switchery(randomSelect, { size: 'small' });
+  $('#randomSelect').prop( "checked", false );
+
+  //listener for two Dimensions
+  $('#randomSelect').change(function () {
+    if (randomStart) {
+      randomStart=false;
+    } else {
+      randomStart=true;
+    }
+  });
+
   $("#Iterations").on("slide", function(slideEvt) {
   	iterations=slideEvt.value;
   });
 
-  $("#update").on("click", function(slideEvt) {
+  $("#update").on("click", function() {
     svg.remove();
     $('#mainSVG').remove();
     svg = d3.select("body")
@@ -30,7 +43,8 @@ $( document ).ready(function() {
               }))
           .append("g");
           if(randomStart){
-
+            createGridRandom(svg);
+            fillGridRandom();
           } else {
             createGrid(svg);
             fillGrid();
@@ -80,6 +94,33 @@ function createGrid(svg){
     posx = 0-((size/2)*iterations)-size;
   }
   d3.select("#_"+String(iterations)+"_0").style("fill", "#000000");
+}
+
+function createGridRandom(svg){
+  var width_adjust = $( window ).width()*1/3+15;
+  var posx = 0-((size/2)*iterations)-size;
+  var posy = 0;
+  for (var i = 0; i < iterations; i++) {
+    posy = i*size;
+    for (var j=0; j<Math.ceil(2*iterations+1); j++) {
+      posx += size;
+      svg.append("rect")
+            .attr("x", posx+width_adjust)
+            .attr("y", posy+90)
+            .attr("width", 9.5)
+            .attr("height", 9.5)
+            .style("fill", "none")
+            .style("stroke-width", "0.6")
+            .style("stroke", "#999999")
+            .attr('id', "_"+String(j)+"_"+String(i)); //because ids cant start with a number
+    }
+    posx = 0-((size/2)*iterations)-size;
+  }
+  for(var k=0;k<2*iterations+3;k++){
+    if(Math.random()>=0.5){
+      d3.select("#_"+String(k)+"_0").style("fill", "#000000");
+    }
+  }
 }
 
 function fillGrid(){

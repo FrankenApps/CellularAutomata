@@ -16,6 +16,9 @@
         <link rel="stylesheet" href="libs/bootstrap_slider/bootstrap_slider.min.css" />
         <!-- D3.js -->
         <script src="libs/d3/d3.js"></script>
+        <!-- Switchery -->
+        <script src="libs/switchery/switchery.min.js"></script>
+        <link rel="stylesheet" href="libs/switchery/switchery.min.css" />
 
         <script src="script.js"></script>
         <link rel="stylesheet" type="text/css" href="styles.css">
@@ -30,6 +33,8 @@
         <h4 style="display: inline">Settings:</h4><br />
         <label for="Iterations">Iterations: </label>
         <input id="Iterations" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="1000000" data-slider-step="1" data-slider-value="30"/>
+        <label for="randomSelect" style="margin-right: 10px">Random Start: </label>
+        <input id="randomSelect" type="checkbox" class="js-switch" /><br />
         <button id="update" class="btn btn-primary" style="margin-top: 5px">Update</button>
       </div>
     </body>

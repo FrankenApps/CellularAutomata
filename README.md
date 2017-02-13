@@ -4,4 +4,4 @@ This is a little web project with Javascript and D3.js. When ready it will be po
 
 ## Todo
 
-Control bar is not ready at the moment..
+Implement a ProgressBar, since updating can take pretty long..
