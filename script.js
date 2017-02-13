@@ -1,6 +1,8 @@
-var iterations = 60;
+var iterations = 30;
 var size = 10;
 var rule = ['none','rgb(0, 0, 0)','rgb(0, 0, 0)','rgb(0, 0, 0)','none','rgb(0, 0, 0)','rgb(0, 0, 0)','none','none','rgb(0, 0, 0)','none','rgb(0, 0, 0)','rgb(0, 0, 0)','rgb(0, 0, 0)','none','none','rgb(0, 0, 0)','none','rgb(0, 0, 0)','rgb(0, 0, 0)','rgb(0, 0, 0)','none','rgb(0, 0, 0)','none','rgb(0, 0, 0)','none','none','rgb(0, 0, 0)','none','none','none','none']
+var randomStart = false;
+var svg;
 
 $( document ).ready(function() {
 
@@ -14,19 +16,47 @@ $( document ).ready(function() {
   	iterations=slideEvt.value;
   });
 
-  var svg = d3.select("body")
+  $("#update").on("click", function(slideEvt) {
+    svg.remove();
+    $('#mainSVG').remove();
+    svg = d3.select("body")
+              .append("svg")
+              .attr("width", '100%')
+              .attr("height", '100%')
+              .attr('id', 'mainSVG')
+              .call(d3.zoom().on("zoom", function () {
+                d3.event.transform.k;
+                svg.attr("transform", d3.event.transform);
+              }))
+          .append("g");
+          if(randomStart){
+
+          } else {
+            createGrid(svg);
+            fillGrid();
+          }
+  });
+
+  svg = d3.select("body")
             .append("svg")
             .attr("width", '100%')
             .attr("height", '100%')
+            .attr('id', 'mainSVG')
             .call(d3.zoom().on("zoom", function () {
               d3.event.transform.k;
               svg.attr("transform", d3.event.transform);
             }))
         .append("g");
 
-    createGrid(svg);
-    fillGrid();
-    createControlBar();
+        if(randomStart){
+          createGridRandom(svg);
+          fillGridRandom();
+          createControlBar();
+        } else {
+          createGrid(svg);
+          fillGrid();
+          createControlBar();
+        }
 });
 
 function createGrid(svg){
@@ -138,7 +168,6 @@ function createControlBar(){
     .classed("white",function(d,i){return rule[i] === "none"})
     .on("click",function(){
        d3.select(this).classed("white",!d3.select(this).classed("white"));
-       alert(rule[String(this.id).substr(2)])
        if(d3.select(this).classed('white')){
          rule[String(this.id).substr(2)]='none';
        }  else {
