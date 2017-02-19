@@ -3,8 +3,11 @@ var size = 10;
 var rule = ['none','rgb(0, 0, 0)','rgb(0, 0, 0)','rgb(0, 0, 0)','none','rgb(0, 0, 0)','rgb(0, 0, 0)','none','none','rgb(0, 0, 0)','none','rgb(0, 0, 0)','rgb(0, 0, 0)','rgb(0, 0, 0)','none','none','rgb(0, 0, 0)','none','rgb(0, 0, 0)','rgb(0, 0, 0)','rgb(0, 0, 0)','none','rgb(0, 0, 0)','none','rgb(0, 0, 0)','none','none','rgb(0, 0, 0)','none','none','none','none']
 var randomStart = false;
 var svg;
+var stroke_color = "#999999";
 
 $( document ).ready(function() {
+
+  calcRule();
 
   $("#Iterations").slider({
 	min: 10,
@@ -25,11 +28,24 @@ $( document ).ready(function() {
     }
   });
 
+  var switchery = new Switchery(gridSelect, { size: 'small' });
+  $('#gridSelect').prop( "checked", true );
+
+  //listener for two Dimensions
+  $('#gridSelect').change(function () {
+    if (stroke_color=="#999999") {
+      stroke_color='none';
+    } else {
+      stroke_color="#999999";
+    }
+  });
+
   $("#Iterations").on("slide", function(slideEvt) {
   	iterations=slideEvt.value;
   });
 
   $("#update").on("click", function() {
+    calcRule();
     svg.remove();
     $('#mainSVG').remove();
     svg = d3.select("body")
@@ -44,7 +60,7 @@ $( document ).ready(function() {
           .append("g");
           if(randomStart){
             createGridRandom(svg);
-            fillGridRandom();
+            fillGrid();
           } else {
             createGrid(svg);
             fillGrid();
@@ -64,7 +80,7 @@ $( document ).ready(function() {
 
         if(randomStart){
           createGridRandom(svg);
-          fillGridRandom();
+          fillGrid();
           createControlBar();
         } else {
           createGrid(svg);
@@ -84,11 +100,11 @@ function createGrid(svg){
       svg.append("rect")
             .attr("x", posx+width_adjust)
             .attr("y", posy+90)
-            .attr("width", 9.5)
-            .attr("height", 9.5)
+            .attr("width", 10.1)
+            .attr("height", 10.1)
             .style("fill", "none")
             .style("stroke-width", "0.6")
-            .style("stroke", "#999999")
+            .style("stroke", stroke_color)
             .attr('id', "_"+String(j)+"_"+String(i)); //because ids cant start with a number
     }
     posx = 0-((size/2)*iterations)-size;
@@ -107,11 +123,11 @@ function createGridRandom(svg){
       svg.append("rect")
             .attr("x", posx+width_adjust)
             .attr("y", posy+90)
-            .attr("width", 9.5)
-            .attr("height", 9.5)
+            .attr("width", 10)
+            .attr("height", 10)
             .style("fill", "none")
             .style("stroke-width", "0.6")
-            .style("stroke", "#999999")
+            .style("stroke", stroke_color)
             .attr('id', "_"+String(j)+"_"+String(i)); //because ids cant start with a number
     }
     posx = 0-((size/2)*iterations)-size;
@@ -124,10 +140,8 @@ function createGridRandom(svg){
 }
 
 function fillGrid(){
-  var columnStartingPoint=iterations-1;
-  var columnEndPoint = iterations+2;
   for (var line = 1; line < iterations; line++) {
-    for (var i = columnStartingPoint; i < columnEndPoint; i++) {
+    for (var i = 1; i < Math.ceil(2*iterations); i++) {
       if (d3.select('#_' + String(i-1) + '_' + String(line-1)).style('fill')==rule[1]&&d3.select('#_' + String(i) + '_' + String(line-1)).style('fill')==rule[2]&&d3.select('#_' + String(i+1) + '_' + String(line-1)).style('fill')==rule[3]) {
         d3.select('#_' + String(i) + '_' + String(line)).style('fill', rule[0]);
       } else if (d3.select('#_' + String(i-1) + '_' + String(line-1)).style('fill')==rule[5]&&d3.select('#_' + String(i) + '_' + String(line-1)).style('fill')==rule[6]&&d3.select('#_' + String(i+1) + '_' + String(line-1)).style('fill')==rule[7]) {
@@ -145,34 +159,10 @@ function fillGrid(){
       } else if (d3.select('#_' + String(i-1) + '_' + String(line-1)).style('fill')==rule[29]&&d3.select('#_' + String(i) + '_' + String(line-1)).style('fill')==rule[30]&&d3.select('#_' + String(i+1) + '_' + String(line-1)).style('fill')==rule[31]) {
         d3.select('#_' + String(i) + '_' + String(line)).style('fill', rule[28]);
       }
-    }
-    columnStartingPoint--;
-    columnEndPoint++;
-  }
-}
-
-function fillGridRandom(){
-  for (var line = 1; line < iterations; line++) {
-  for (var i = 1; i < Math.ceil(2*iterations); i++) {
-    if (d3.select('#_' + String(i-1) + '_' + String(line-1)).style('fill')==rule[1]&&d3.select('#_' + String(i) + '_' + String(line-1)).style('fill')==rule[2]&&d3.select('#_' + String(i+1) + '_' + String(line-1)).style('fill')==rule[3]) {
-      d3.select('#_' + String(i) + '_' + String(line)).style('fill', rule[0]);
-    } else if (d3.select('#_' + String(i-1) + '_' + String(line-1)).style('fill')==rule[5]&&d3.select('#_' + String(i) + '_' + String(line-1)).style('fill')==rule[6]&&d3.select('#_' + String(i+1) + '_' + String(line-1)).style('fill')==rule[7]) {
-      d3.select('#_' + String(i) + '_' + String(line)).style('fill', rule[4]);
-    } else if (d3.select('#_' + String(i-1) + '_' + String(line-1)).style('fill')==rule[9]&&d3.select('#_' + String(i) + '_' + String(line-1)).style('fill')==rule[10]&&d3.select('#_' + String(i+1) + '_' + String(line-1)).style('fill')==rule[11]) {
-      d3.select('#_' + String(i) + '_' + String(line)).style('fill', rule[8]);
-    } else if (d3.select('#_' + String(i-1) + '_' + String(line-1)).style('fill')==rule[13]&&d3.select('#_' + String(i) + '_' + String(line-1)).style('fill')==rule[14]&&d3.select('#_' + String(i+1) + '_' + String(line-1)).style('fill')==rule[15]) {
-      d3.select('#_' + String(i) + '_' + String(line)).style('fill', rule[12]);
-    } else if (d3.select('#_' + String(i-1) + '_' + String(line-1)).style('fill')==rule[17]&&d3.select('#_' + String(i) + '_' + String(line-1)).style('fill')==rule[18]&&d3.select('#_' + String(i+1) + '_' + String(line-1)).style('fill')==rule[19]) {
-      d3.select('#_' + String(i) + '_' + String(line)).style('fill', rule[16]);
-    } else if (d3.select('#_' + String(i-1) + '_' + String(line-1)).style('fill')==rule[21]&&d3.select('#_' + String(i) + '_' + String(line-1)).style('fill')==rule[22]&&d3.select('#_' + String(i+1) + '_' + String(line-1)).style('fill')==rule[23]) {
-      d3.select('#_' + String(i) + '_' + String(line)).style('fill', rule[20]);
-    } else if (d3.select('#_' + String(i-1) + '_' + String(line-1)).style('fill')==rule[25]&&d3.select('#_' + String(i) + '_' + String(line-1)).style('fill')==rule[26]&&d3.select('#_' + String(i+1) + '_' + String(line-1)).style('fill')==rule[27]) {
-      d3.select('#_' + String(i) + '_' + String(line)).style('fill', rule[24]);
-    } else if (d3.select('#_' + String(i-1) + '_' + String(line-1)).style('fill')==rule[29]&&d3.select('#_' + String(i) + '_' + String(line-1)).style('fill')==rule[30]&&d3.select('#_' + String(i+1) + '_' + String(line-1)).style('fill')==rule[31]) {
-      d3.select('#_' + String(i) + '_' + String(line)).style('fill', rule[28]);
+      $('#progressBarHandler').css('width', Math.round((line+1)/iterations*100)+'%');
+      $('#progressBarHandler').html(Math.round((line+1)/iterations*100)+'%');
     }
   }
-}
 }
 
 function createControlBar(){
@@ -215,4 +205,17 @@ function createControlBar(){
          rule[String(this.id).substr(2)]='rgb(0, 0, 0)';
        }
     });
+}
+
+function calcRule(){
+  var ruleNumber = 0;
+  for (var i = 0; i < 8; i++) {
+    if (rule[i*4]=='none') {
+    } else if (rule[i*4]=='rgb(0, 0, 0)'){
+      ruleNumber+=Math.pow(2,7-i);
+    }
+  }
+  console.log(ruleNumber);
+  $('#RuleIndenticator').html('<b>Rule '+ ruleNumber +'</b> is currently displayed.');
+  document.title = 'Cellular Automata: Rule ' + ruleNumber;
 }

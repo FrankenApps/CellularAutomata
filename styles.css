@@ -6,8 +6,8 @@ html, body{
 .menu {
 	position:fixed;
 	width:250px; height:400px;
-	top:60px; right: 10px;
-	background:none;
+	top:100px; right: 10px;
+  background-color: rgba(255,255,255,0.6);
 }
 
 .menu a {
@@ -41,4 +41,8 @@ border-color: #000000;
 
 .white.controlBarButton {
   fill: white;
+}
+
+.progress-bar {
+   transition-duration: 2s;
 }
