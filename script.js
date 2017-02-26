@@ -38,6 +38,7 @@ if(!isMobile){
   $("#gridSelectLabel").css('font-size', '25px');
   $("#numberInput").css('font-size', '35px');
   $('#numberInput').val('30');
+  $('#menuWrapper').css('height', '400px');
 }
   $('#randomSelect').prop( "checked", false );
   $('#gridSelect').prop( "checked", true );
