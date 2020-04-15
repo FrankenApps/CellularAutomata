@@ -1,5 +1,2 @@
-# Eclipse project files
-.classpath
-.project
-.settings
-script_rewrite.js
+# VSCode
+.vscode/

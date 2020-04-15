@@ -1,48 +1,39 @@
-html, body{
-  background-color: #ffffff;
+body {
+    margin:0;
+    padding:0;
+    overflow:hidden;
 }
 
+canvas {
+    display:block;
+}
 
 .menu {
-	position:fixed;
-	width:250px; height:250px;
-	top:100px; right: 10px;
-  background-color: rgba(255,255,255,0.6);
-}
-
-.menu a {
-	color: black;
-}
-
-.scale {
-	position:fixed;
-	width:110px; height:60px;
-	bottom:20px; right: 60px;
+    position:fixed;
+    width:250px; height:250px;
+    top:100px; right: 10px;
+    border-radius: 15px;
 }
 
 .controlBar {
-  position: fixed;
-margin: auto;
-top: 2px;
-right: 0;
-left: 0;
-width: 1000px;
-height: 80px;
-background-color: #ffffff;
-border-radius: 3px;
-border-width: medium;
-border-style: solid;
-border-color: #000000;
+    position: fixed;
+    margin: auto;
+    top: 2px;
+    right: 0;
+    left: 0;
+    width: 1000px;
+    height: 80px;
+    background-color: #ffffff;
+    border-radius: 3px;
+    border-width: medium;
+    border-style: solid;
+    border-color: #000000;
 }
 
 .controlBarButton:not(.white) {
-  fill: black;
+    fill: black;
 }
 
 .white.controlBarButton {
-  fill: white;
-}
-
-.progress-bar {
-   transition-duration: 0s;
+    fill: white;
 }
